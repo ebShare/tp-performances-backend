@@ -31,11 +31,24 @@ class UnoptimizedHotelService extends AbstractHotelService {
    * @noinspection PhpUnnecessaryLocalVariableInspection
    */
   protected function getDB () : PDO {
+    static  $instance;
+
+    static function getInstance () : static {
+    if ( ! isset( self::$instance ) )
+      self::$instance = new static();
+    
+    return self::$instance;
+  }
+    $timer = Timers::getInstance();
+   
+    $timerId = $timer->startTimer('Tgetbdd');
     $pdo = new PDO( "mysql:host=db;dbname=tp;charset=utf8mb4", "root", "root" );
+    $timer->endTimer('Tgetbdd', $timerId);
+    
     return $pdo;
   }
   
-  
+
   /**
    * Récupère une méta-donnée de l'instance donnée
    *
