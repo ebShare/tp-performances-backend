@@ -8,6 +8,7 @@ use App\Services\Room\AbstractRoomService;
 use function App\Common\get_template;
 use function App\Common\sanitize;
 use const App\__PROJECT_ROOT__;
+use App\Common\Timers;
 
 /**
  * Contrôleur en charge de l'affichage de la liste des hotels
@@ -142,7 +143,7 @@ class HotelListController extends AbstractController {
     }
     
     $hotels = $this->hotelService->list( $args );
-    
+    header('Server-Timing: ' . Timers::getInstance()->getTimers() );
     echo get_template( __PROJECT_ROOT__ . "/Views/hotel-list.php", [
       'hotels' => $hotels,
       'filters' => $formValues,
