@@ -73,6 +73,17 @@ class UnoptimizedHotelService extends AbstractHotelService {
    * @noinspection PhpUnnecessaryLocalVariableInspection
    */
   protected function getMetas ( HotelEntity $hotel ) : array {
+    $db = $this->getDB();
+    $request = $db->prepare( "SELECT * FROM wp_usermeta WHERE :hotel_id" );
+    $request->execute(['hotel_id' => $hotel->getId()]);
+    $result = $request->fetchAll( PDO::FETCH_ASSOC );
+    $ctv=[];
+    foreach ($result as $row){
+      $ctv[$row['meta_key']]=$row['meta_value'];
+    }
+
+    
+
     $metaDatas = [
       'address' => [
         'address_1' => $this->getMeta( $hotel->getId(), 'address_1' ),
