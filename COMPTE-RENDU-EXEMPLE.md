@@ -34,13 +34,13 @@ Vous pouvez utiliser ce [GSheets](https://docs.google.com/spreadsheets/d/13Hw27U
 
 #### Amélioration de la méthode `getMetas` et donc de la méthode `getMeta` :
 
-- **Avant** 30.8
+- **Avant** 30.8s
 
 ```sql
 SELECT * FROM wp_usermeta WHERE :hotel_id
 ```
 
-- **Après** 23.9
+- **Après** 23.9s
 
 ```sql
 SELECT meta_key, meta_value FROM wp_usermeta WHERE user_id = :hotel_id
@@ -50,7 +50,7 @@ SELECT meta_key, meta_value FROM wp_usermeta WHERE user_id = :hotel_id
 
 #### Amélioration de la méthode `getReviews` :
 
-- **Avant** 23.9
+- **Avant** 23.9s
 
 ```sql
 SELECT * FROM wp_posts, wp_postmeta 
@@ -58,7 +58,7 @@ SELECT * FROM wp_posts, wp_postmeta
     AND meta_key = 'rating' AND post_type = 'review'
 ```
 
-- **Après** 21.8
+- **Après** 21.8s
 
 ```sql
 SELECT COUNT(wp_postmeta.meta_value)AS count, ROUND(AVG(wp_postmeta.meta_value)) AS avg FROM wp_posts
@@ -70,7 +70,7 @@ SELECT COUNT(wp_postmeta.meta_value)AS count, ROUND(AVG(wp_postmeta.meta_value))
 
 #### Amélioration de la méthode `getCheapestRoom` :
 
-- **Avant** 21.8
+- **Avant** 21.8s
 
 ```sql
 SELECT * FROM wp_posts WHERE post_author = :hotelId AND post_type = 'room'
