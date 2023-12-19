@@ -14,7 +14,7 @@ Vous pouvez utiliser ce [GSheets](https://docs.google.com/spreadsheets/d/13Hw27U
 
 ## Question 3 : Réduction du nombre de connexions PDO
 
-**Temps de chargement de la page** : 30.6
+**Temps de chargement de la page** : 30.6s
 
 **Temps consommé par `getDB()`** 
 
@@ -27,49 +27,53 @@ Vous pouvez utiliser ce [GSheets](https://docs.google.com/spreadsheets/d/13Hw27U
 
 **Temps de chargement globaux** 
 
-- **Avant** TEMPS
+- **Avant** 30.8s
 
 - **Après** TEMPS
 
 
-#### Amélioration de la méthode `METHOD` et donc de la méthode `METHOD` :
+#### Amélioration de la méthode `getMetas` et donc de la méthode `getMeta` :
 
-- **Avant** TEMPS
+- **Avant** 30.8
 
 ```sql
--- REQ SQL DE BASE
+SELECT * FROM wp_usermeta WHERE :hotel_id
 ```
 
-- **Après** TEMPS
+- **Après** 23.9
 
 ```sql
--- NOUVELLE REQ SQL
-```
-
-
-
-#### Amélioration de la méthode `METHOD` :
-
-- **Avant** TEMPS
-
-```sql
--- REQ SQL DE BASE
-```
-
-- **Après** TEMPS
-
-```sql
--- NOUVELLE REQ SQL
+SELECT meta_key, meta_value FROM wp_usermeta WHERE user_id = :hotel_id
 ```
 
 
 
-#### Amélioration de la méthode `METHOD` :
+#### Amélioration de la méthode `getReviews` :
 
-- **Avant** TEMPS
+- **Avant** 23.9
 
 ```sql
--- REQ SQL DE BASE
+SELECT * FROM wp_posts, wp_postmeta 
+    WHERE wp_posts.post_author = :hotelId AND wp_posts.ID = wp_postmeta.post_id 
+    AND meta_key = 'rating' AND post_type = 'review'
+```
+
+- **Après** 21.8
+
+```sql
+SELECT COUNT(wp_postmeta.meta_value)AS count, ROUND(AVG(wp_postmeta.meta_value)) AS avg FROM wp_posts
+    INNER JOIN wp_postmeta ON  wp_posts.ID = wp_postmeta.post_id
+    WHERE meta_key='rating' AND wp_posts.post_author = :hotelId;
+```
+
+
+
+#### Amélioration de la méthode `getCheapestRoom` :
+
+- **Avant** 21.8
+
+```sql
+SELECT * FROM wp_posts WHERE post_author = :hotelId AND post_type = 'room'
 ```
 
 - **Après** TEMPS
