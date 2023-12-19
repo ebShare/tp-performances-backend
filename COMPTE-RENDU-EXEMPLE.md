@@ -14,13 +14,13 @@ Vous pouvez utiliser ce [GSheets](https://docs.google.com/spreadsheets/d/13Hw27U
 
 ## Question 3 : Réduction du nombre de connexions PDO
 
-**Temps de chargement de la page** : TEMPS
+**Temps de chargement de la page** : 30.6
 
 **Temps consommé par `getDB()`** 
 
-- **Avant** TEMPS
+- **Avant** 1206.394196
 
-- **Après** TEMPS
+- **Après** 7.763386
 
 
 ## Question 4 : Délégation des opérations de filtrage à la base de données
